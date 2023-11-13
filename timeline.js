@@ -40,15 +40,21 @@ class CircleComponent extends HTMLElement {
         circle.children[0].classList.remove('white-text');
     }
 
-    handleClick() {
-        const event = new CustomEvent('circleClick', { bubbles: true, detail: { id: this.id, chain: this.chain } });
+    handleClickAndMouseEnter() {
+        const event = new CustomEvent('circleClickOrMouseEnter', { bubbles: true, detail: { id: this.id, chain: this.chain } });
+        this.dispatchEvent(event);
+    }
+    handleMouseleave(){
+        const event = new CustomEvent('circleMouseleave', { bubbles: true});
         this.dispatchEvent(event);
     }
 
     connectedCallback() {
         this.render();
         let circle = this.shadow.querySelector('.ipti-project-circle');
-        circle.addEventListener('click', this.handleClick.bind(this))
+        circle.addEventListener('click', this.handleClickAndMouseEnter.bind(this))
+        circle.addEventListener('mouseenter', this.handleClickAndMouseEnter.bind(this))
+        circle.addEventListener('mouseleave', this.handleMouseleave.bind(this))
     }
     render() {
         this.shadow.innerHTML= `
@@ -186,7 +192,7 @@ class TimelineComponent extends HTMLElement {
                     .side-title__container {
                         width: 20px;
                     }
-                    .side-title {
+                    .side-title, .timeline__years {
                         font-size: 10px;
                     }
                     .side-title  br{
@@ -201,7 +207,7 @@ class TimelineComponent extends HTMLElement {
         this.setupEventListeners();
     }
     setupEventListeners() {
-        this.shadowRoot.addEventListener('circleClick', (event) => {
+        this.shadowRoot.addEventListener('circleClickOrMouseEnter', (event) => {
 
             const circles = this.shadowRoot.querySelectorAll("circle-component")
             circles.forEach(circle => {
@@ -218,6 +224,12 @@ class TimelineComponent extends HTMLElement {
                 if (circle) {
                     circle.setLightBackground();
                 }
+            })
+        })
+        this.shadowRoot.addEventListener('circleMouseleave', (event) => {
+            const circles = this.shadowRoot.querySelectorAll("circle-component")
+            circles.forEach(circle => {
+                circle.removeBackGround();   
             })
         })
     }
