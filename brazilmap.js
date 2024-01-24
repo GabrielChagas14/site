@@ -5,6 +5,12 @@ class BrazilMapComponent extends HTMLElement {
     }
     connectedCallback() {
         this.render();
+        let path = this.shadow.querySelectorAll(".thp-brazil-state");
+        path.forEach((item) => item.addEventListener("mouseover", this.handleMouseover.bind(this)))
+    }
+    handleMouseover() {
+        const event = new CustomEvent("StateMouseover", { bubbles: true });
+        this.dispatchEvent(event);
     }
     data() {
         return {
@@ -72,7 +78,7 @@ class BrazilMapComponent extends HTMLElement {
         `
     }
     createStates() {
-        return this.data().states.reduce((acc, current) => acc + `<path id='${current.id}' d='${current.d}' />`, '');
+        return this.data().states.reduce((acc, current) => acc + `<path id='${current.id}' class='thp-brazil-state' d='${current.d}' />`, '');
     }
     render() {
         this.shadow.innerHTML = `
@@ -85,6 +91,68 @@ class BrazilMapComponent extends HTMLElement {
 }
 customElements.define("brazil-map-component", BrazilMapComponent);
 
+class MessageBoxComponent extends HTMLElement {
+    constructor() {
+        super();
+        this.shadow = this.attachShadow({ mode: "open" })
+    }
+    connectedCallback() {
+        this.render();
+    }
+    data() {
+        return {
+            messages: {
+                ptBr: [
+                    { id: "AL", beneficiaries: "100", tagStudents: "", projects: "Cultura em Foco (2015)" },
+                    { id: "AM", beneficiaries: "1500", tagStudents: "", projects: "Hb" },
+                    { id: "BA", beneficiaries: "30", tagStudents: "", projects: "Ed Mundo" },
+                    { id: "CE", beneficiaries: "80", tagStudents: "1078", projects: "Ed Mundo, Synapse, TAG" },
+                    { id: "ES", beneficiaries: "", tagStudents: "7879", projects: "TAG" },
+                    { id: "MA", beneficiaries: "320", tagStudents: "13417", projects: "Synapse, TAG" },
+                    { id: "MG", beneficiaries: "180", tagStudents: "1202", projects: "Synapse, TAG" },
+                    { id: "PB", beneficiaries: "", tagStudents: "1617", projects: "TAG" },
+                    { id: "RJ", beneficiaries: "", tagStudents: "25621", projects: "TAG" },
+                    { id: "SE", beneficiaries: "7458", tagStudents: "22704", projects: "Todos menos edmundo" },
+                    { id: "SP", beneficiaries: "", tagStudents: "1997", projects: "TAG" },
+                ]
+            }
+        }
+    }
+    style() {
+        return `
+        <style>
+            .thp-message-box{
+                padding: 5px 15px;
+            }
+        </style>
+        `
+    }
+    createMessage(id) {
+        let element = this.data().messages.ptBr.find((item) => item.id == id)
+        if (element != undefined) {
+            let message = ''
+            if (element.beneficiaries != "") {
+                message += `${element.beneficiaries} benefeciados </br>`
+            }
+            if (element.tagStudents != "") {
+                message += `${element.tagStudents} alunos cadastrados no TAG <br>`
+            }
+            message += element.projects
+            const messageBox = this.shadow.querySelector(".thp-message-box")
+            messageBox.innerHTML = message
+        }
+
+    }
+    render() {
+        this.shadow.innerHTML = `
+            ${this.style()}
+            <div class='thp-message-box'>
+                
+            </div>
+        `;
+    }
+}
+customElements.define("message-box-component", MessageBoxComponent);
 class MapContainerComponent extends HTMLElement {
     constructor() {
         super();
@@ -92,6 +160,15 @@ class MapContainerComponent extends HTMLElement {
     }
     connectedCallback() {
         this.render();
+        this.setupEventListeners();
+    }
+    setupEventListeners() {
+        this.shadowRoot.addEventListener(
+            'StateMouseover',
+            (event) => {
+                this.shadowRoot.querySelector('message-box-component').createMessage(event.explicitOriginalTarget.id)
+            }
+        )
     }
     style() {
         return `
@@ -111,6 +188,7 @@ class MapContainerComponent extends HTMLElement {
         this.shadow.innerHTML = `
             ${this.style()}
             <div class="thp-brasilmap-container">
+                <message-box-component></message-box-component>
                 <brazil-map-component></brazil-map-component>
             </div>
         `
