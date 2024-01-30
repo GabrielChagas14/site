@@ -31,29 +31,49 @@ class BrazilMapComponent extends HTMLElement {
         }
         return coordinatesbrazilMapState;
     }
-    draw(messageBoxXY, stateXY) {
+    draw(messageBoxXY, stateXY, stateId) {
         const whitLine = this.shadow.querySelector('.white-line');
         const circle = this.shadow.querySelector('.circle');
+        let messageY = null
+        let messageX = null
+        
+        if(stateXY.y < messageBoxXY.y){
+            messageY = messageBoxXY.y
+        } else if(stateXY.y > messageBoxXY.y){
+            messageY = messageBoxXY.y + messageBoxXY.offsetHeight
+           
+        }
+        messageX = messageBoxXY.x
 
-        let messageY =  stateXY.y < messageBoxXY.y ? messageBoxXY.y : (messageBoxXY.y + messageBoxXY.offsetHeight)
-        
         let d = `M ${stateXY.x}, ${stateXY.y} L ${messageBoxXY.x}, ${stateXY.y} L${messageBoxXY.x}, ${messageY} `;
-        
+
+        if(stateId === "MG" || stateId === "ES") {
+            messageX = messageBoxXY.x + messageBoxXY.offsetWidth;
+            messageY = stateXY.y
+            d = `M ${stateXY.x}, ${stateXY.y} L  ${messageX}, ${stateXY.y}`
+        }
+    
         whitLine.setAttribute('d', d);
         const tamanhoTotalDoPath = whitLine.getTotalLength();
         whitLine.style.setProperty('--tamanhoTotalDoPath', tamanhoTotalDoPath)
         whitLine.classList.remove('hide')
-        circle.setAttribute('cx', messageBoxXY.x)
-        circle.setAttribute('cy', messageY)
-        
-        whitLine.classList.remove('hide')
 
+        whitLine.addEventListener('animationend', () => {
+            circle.setAttribute('cx', messageX)
+            circle.setAttribute('cy', messageY)
+            circle.classList.remove('hide')
+        });
     }
     erase(){
         const whitLine = this.shadow.querySelector('.white-line');
+        const circle = this.shadow.querySelector('.circle');
 
         whitLine.setAttribute('d', '');
-        whitLine.classList.add('hide')
+        whitLine.classList.add('hide');
+
+        circle.setAttribute('cx', '')
+        circle.setAttribute('cy', '')
+        circle.classList.add('hide')
 
     }
     data() {
@@ -150,7 +170,7 @@ class BrazilMapComponent extends HTMLElement {
             <svg class="thp-brazil-map" width="1284" height="626" viewBox="0 0 1284 626" fill="none">              
                 ${this.createStates()} 
                 <path class="white-line hide"/>
-                <circle class="circle" r="3" fill="white" />
+                <circle class="circle hide" r="3" fill="white" />
             </svg>
         `;
     }
@@ -169,17 +189,17 @@ class MessageBoxComponent extends HTMLElement {
         return {
             messages: {
                 ptBr: [
-                    { id: "AL", beneficiaries: "100", tagStudents: "", projects: "Cultura em Foco (2015)" },
-                    { id: "AM", beneficiaries: "1500", tagStudents: "", projects: "Hb" },
-                    { id: "BA", beneficiaries: "30", tagStudents: "", projects: "Ed Mundo" },
-                    { id: "CE", beneficiaries: "80", tagStudents: "1078", projects: "Ed Mundo, Synapse, TAG" },
-                    { id: "ES", beneficiaries: "", tagStudents: "7879", projects: "TAG" },
-                    { id: "MA", beneficiaries: "320", tagStudents: "13417", projects: "Synapse, TAG" },
-                    { id: "MG", beneficiaries: "180", tagStudents: "1202", projects: "Synapse, TAG" },
-                    { id: "PB", beneficiaries: "", tagStudents: "1617", projects: "TAG" },
-                    { id: "RJ", beneficiaries: "", tagStudents: "25621", projects: "TAG" },
-                    { id: "SE", beneficiaries: "7458", tagStudents: "22704", projects: " Synapse, TAG, Cultura em Foco (2015), Hb" },
-                    { id: "SP", beneficiaries: "", tagStudents: "1997", projects: "TAG" },
+                    { id: "AL", name:'ALAGOAS', beneficiaries: "100", tagStudents: "", projects: "Cultura em Foco (2015)" },
+                    { id: "AM", name:'AMAZONAS', beneficiaries: "1500", tagStudents: "", projects: "Hb" },
+                    { id: "BA", name:'BAHIA', beneficiaries: "30", tagStudents: "", projects: "Ed Mundo" },
+                    { id: "CE", name:'CEARÁ', beneficiaries: "80", tagStudents: "1078", projects: "Ed Mundo, Synapse, TAG" },
+                    { id: "ES", name:'ESPÍRITO SANTO', beneficiaries: "", tagStudents: "7879", projects: "TAG" },
+                    { id: "MA", name:'MARANHÃO', beneficiaries: "320", tagStudents: "13417", projects: "Synapse, TAG" },
+                    { id: "MG", name:'MINAS GERAIS', beneficiaries: "180", tagStudents: "1202", projects: "Synapse, TAG" },
+                    { id: "PB", name:'PARAÍBA', beneficiaries: "", tagStudents: "1617", projects: "TAG" },
+                    { id: "RJ", name:'RIO DE JANEIRO', beneficiaries: "", tagStudents: "25621", projects: "TAG" },
+                    { id: "SE", name:'SERGIPE', beneficiaries: "7458", tagStudents: "22704", projects: " Synapse, TAG, Cultura em Foco (2015), Hb" },
+                    { id: "SP", name:'SÃO PAULO', beneficiaries: "", tagStudents: "1997", projects: "TAG" },
                 ]
             }
         }
@@ -188,14 +208,19 @@ class MessageBoxComponent extends HTMLElement {
         return `
         <style>
             .thp-message-box{
-                padding: 15px 15px;
-                box-sizing: border-box;
+                padding:15px 0px;
                 position: absolute;
                 left:0;
                 right: 500px;
                 margin: auto;
                 width: fit-content;
                 color: white;
+            }
+            .thp-message-box span {
+                font-size: 12px;
+            }
+            .hide {
+                visibility: hidden;
             }
         </style>
         `
@@ -204,35 +229,41 @@ class MessageBoxComponent extends HTMLElement {
         let element = this.data().messages.ptBr.find((item) => item.id == id)
         const messageBox = this.shadow.querySelector(".thp-message-box")
         if (element != undefined) {
-            let message = ''
+            let message = `<span>${element.name}</span><br/>`
             if (element.beneficiaries != "") {
                 message += `${element.beneficiaries} benefeciados </br>`
             }
             if (element.tagStudents != "") {
                 message += `${element.tagStudents} alunos cadastrados no TAG <br>`
             }
-            message += element.projects
+            message += `Projeto(s) - ${element.projects}`
             messageBox.innerHTML = message
         }
     }
     clearMessage() {
-        /*  const messageBox = this.shadow.querySelector(".thp-message-box")
-         messageBox.innerHTML = '' */
+         const messageBox = this.shadow.querySelector(".thp-message-box")
+         messageBox.innerHTML = ''
+         messageBox.classList.add('hide')
+    }
+    showMessage() {
+         const messageBox = this.shadow.querySelector(".thp-message-box")
+         messageBox.classList.remove('hide')
     }
     position() {
         const messageBox = this.shadowRoot.querySelector('.thp-message-box')
+        
         const coordinatesBMessage = {
             x: messageBox.offsetLeft,
             y: messageBox.offsetTop,
-            offsetHeight: messageBox.offsetHeight
+            offsetHeight: messageBox.offsetHeight,
+            offsetWidth: messageBox.offsetWidth
         }
         return coordinatesBMessage;
     }
     render() {
         this.shadow.innerHTML = `
             ${this.style()}
-            <div class='thp-message-box'>
-                AAAAAAAAAAA
+            <div class='thp-message-box hide'>
             </div>
         `;
     }
@@ -251,14 +282,20 @@ class MapContainerComponent extends HTMLElement {
         this.shadowRoot.addEventListener(
             'StateMouseover',
             (event) => {
-                const messageBox = this.shadowRoot.querySelector('message-box-component');
-                const brazilMap = this.shadowRoot.querySelector('brazil-map-component');
-                /*  const line = this.shadowRoot.querySelector('line-component'); */
-
+                const statesWithThpProjects = ['SE', 'BA', 'AM', 'MA', 'CE', 'PB', 'AL', 'RJ', 'MG', 'ES', 'SP']
                 const state = event.explicitOriginalTarget
-                messageBox.createMessage(state.id)
-                console.log(messageBox.position(), brazilMap.position(state.id))
-                brazilMap.draw(messageBox.position(), brazilMap.position(state.id))
+                if(statesWithThpProjects.find((s) =>  s === state.id)) {
+                    const messageBox = this.shadowRoot.querySelector('message-box-component');
+                    const brazilMap = this.shadowRoot.querySelector('brazil-map-component');
+        
+                    messageBox.createMessage(state.id)
+                    console.log(messageBox.position(), brazilMap.position(state.id), state.id)
+                    brazilMap.draw(messageBox.position(), brazilMap.position(state.id), state.id)
+    
+                    brazilMap.shadowRoot.querySelector(".white-line").addEventListener('animationend', () => {
+                        messageBox.showMessage()
+                    });
+                }
             }
         )
         this.shadowRoot.addEventListener(
