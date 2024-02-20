@@ -288,17 +288,11 @@ class TimelineComponent extends HTMLElement {
             </div>
             <div class="timeline__row basic-education">
                 <div class="timeline__column">
-                    <circle-component id="1" name="SYNAPSE" color="#f0bc9c" chain="[2,12,11,7]"></circle-component>
+                    <circle-component id="1" name="SYNAPSE" color="#f0bc9c" chain="[2,12,11,7,5,9,6]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
-                    <circle-component id="2" name="TAG" color="#f0bc9c" chain="[1,7,9]"></circle-component>
-                    <hr class="dashed-line" />
-                </div>
-                <div class="timeline__column">
-                    <hr class="dashed-line" />
-                </div>
-                <div class="timeline__column">
+                    <circle-component id="2" name="TAG" color="#f0bc9c" chain="[1,7,9,5,6,12]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
@@ -314,7 +308,13 @@ class TimelineComponent extends HTMLElement {
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
-                    <circle-component id="5" name="SYNAPSE EDUCAÇÃO INFANTIL" color="#f0bc9c"></circle-component>
+                    <hr class="dashed-line" />
+                </div>
+                <div class="timeline__column">
+                    <hr class="dashed-line" />
+                </div>
+                <div class="timeline__column">
+                    <circle-component id="5" name="SYNAPSE EDUCAÇÃO INFANTIL" color="#f0bc9c" chain="[1,2,7,9,11,12,6,15]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
@@ -327,11 +327,11 @@ class TimelineComponent extends HTMLElement {
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
-                    <circle-component id="6" name="CRIA" color="#f0bc9c"></circle-component>
+                    <circle-component id="6" name="CRIA" color="#f0bc9c" chain="[5,9,7,2,17,15]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
-                <circle-component id="19" name="MACETE" color="#f0bc9c"></circle-component>
+                <circle-component id="19" name="MACETE" color="#f0bc9c" chain="[11,12,13,14,15,17,20,1,5]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
@@ -343,7 +343,7 @@ class TimelineComponent extends HTMLElement {
             </div>
             <div class="timeline__row health">
                 <div class="timeline__column">
-                    <circle-component id="7" name="Hb" color="#f09c64" chain="[1,2]"></circle-component>
+                    <circle-component id="7" name="Hb" color="#f09c64" chain="[1,2,9,5,12,6]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
@@ -377,14 +377,14 @@ class TimelineComponent extends HTMLElement {
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
-                    <circle-component id="9" name="NHAM" color="#f09c64" chain="[2]"></circle-component>
+                    <circle-component id="9" name="NHAM" color="#f09c64" chain="[2,7,1,5,12,6]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
-                    <circle-component id="8" name="VETORES" color="#f09c64" chain="[12]"></circle-component>
+                    <circle-component id="8" name="VETORES" color="#f09c64" chain="[12,7]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
@@ -396,48 +396,48 @@ class TimelineComponent extends HTMLElement {
             </div>
             <div class="timeline__row entrepreneurial-education">
                 <div class="timeline__column">
-                    <circle-component id="10" name="CULTURA EM FOCO" color="#f08c44"></circle-component>
+                    <circle-component id="10" name="CULTURA EM FOCO" color="#f08c44" chain="[11,9,17]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
-                    <circle-component id="11" name="ARTE NATURALISTA" color="#f08c44" chain="[1]"></circle-component>
+                    <circle-component id="11" name="ARTE NATURALISTA" color="#f08c44" chain="[1,5,14,13,15,17,18]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
-                    <circle-component id="12" name="CLOC" color="#f08c44" chain="[1,8]"></circle-component>
-                    <hr class="dashed-line" />
-                </div>
-                <div class="timeline__column">
-                    <hr class="dashed-line" />
-                </div>
-                <div class="timeline__column">
-                    <circle-component id="13" name="PLOC" color="#f08c44" chain="[15,14]"></circle-component>
-                    <hr class="dashed-line" />
-                </div>
-                <div class="timeline__column">
-                    <circle-component id="14" name="LUCA" color="#f08c44" chain="[13]"></circle-component>
-                    <hr class="dashed-line" />
-                </div>
-                <div class="timeline__column">
-                    <circle-component id="15" name="ROMANCEIROS DO ITANHY" color="#f08c44" chain="[13]"></circle-component>
-                    <hr class="dashed-line" />
-                </div>
-                <div class="timeline__column">
-                    <circle-component id="20" name="SIRI" color="#f08c44" chain="[4,12,13,14,11]"></circle-component>
-                    <hr class="dashed-line" />
-                </div>
-                <div class="timeline__column">
-                    <circle-component id="17" name="ON" color="#f08c44" chain="[5,12,16,18,20]"></circle-component>
+                    <circle-component id="12" name="CLOC" color="#f08c44" chain="[1,8,5,2,7,9,6,17,20]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">
-                    <circle-component id="18" name="JIRO" color="#f08c44" chain="[17,14,16,12,20]"></circle-component>
+                    <circle-component id="13" name="PLOC" color="#f08c44" chain="[14,11,17,18,20]"></circle-component>
+                    <hr class="dashed-line" />
+                </div>
+                <div class="timeline__column">
+                    <circle-component id="14" name="LUCA" color="#f08c44" chain="[13,11,15,17,18,20]"></circle-component>
+                    <hr class="dashed-line" />
+                </div>
+                <div class="timeline__column">
+                    <circle-component id="15" name="ROMANCEIROS DO ITANHY" color="#f08c44" chain="[6,5,11,14,17]"></circle-component>
+                    <hr class="dashed-line" />
+                </div>
+                <div class="timeline__column">
+                    <circle-component id="20" name="SIRI" color="#f08c44" chain="[12,13,14,11,17,18]"></circle-component>
+                    <hr class="dashed-line" />
+                </div>
+                <div class="timeline__column">
+                    <circle-component id="17" name="ON" color="#f08c44" chain="[11,12,14,13,15,18,20,1,10,6]"></circle-component>
+                    <hr class="dashed-line" />
+                </div>
+                <div class="timeline__column">
+                    <hr class="dashed-line" />
+                </div>
+                <div class="timeline__column">
+                    <circle-component id="18" name="JIRO" color="#f08c44" chain="[17,14,12,20,11,13,15]"></circle-component>
                     <hr class="dashed-line" />
                 </div>
                 <div class="timeline__column">

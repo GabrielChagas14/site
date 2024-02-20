@@ -44,11 +44,34 @@
                 url("//static.parastorage.com/services/santa-resources/resources/viewer/user-site-fonts/fonts/Futura_Complete/v1/FuturaLTW05-LightCondensed.woff") format("woff");
             font-display: block;
         }
+
+        body {
+            background-color: #30441c;
+        }
+
+        .timeline-section-title {
+            font-family: Futura-LT-W01-Book;
+            font-weight: bold;
+            font-size: 27px;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        @media (max-width: 640px) {
+            .timeline-section-title {
+                font-size: 16px;
+            }
+        }
     </style>
-    <script src="./brazilmap.js">
-        
+    <script src="./timeline.js">
+
     </script>
-    <brazil-map-component></brazil-map-component>
+    <h1 class="timeline-section-title">
+        <span>Passe o mouse na TS e veja com quais TS's ela interage</span>
+        <span>Clique na TS e vá direto para a página da TS</span>
+    </h1>
+    <timeline-component></timeline-component>
+    <!-- <brazil-map-component></brazil-map-component> -->
 </body>
 
 </html>

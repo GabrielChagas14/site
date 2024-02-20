@@ -76,14 +76,14 @@ class BrazilMapComponent extends HTMLElement {
         if ((stateId == "SE" || stateId == "MA") && window.innerWidth <= 1525) {
             messageX = "80"
         }
-        if(window.innerWidth <= 600){
-           const brazilMapState = this.shadowRoot.querySelector(`.thp-brazil-map #RS`);
+        if (window.innerWidth <= 600) {
+            const brazilMapState = this.shadowRoot.querySelector(`.thp-brazil-map #RS`);
             let bbox = brazilMapState.getBBox();
 
             messageX = "50"
-             messageY = bbox.y + bbox.height
+            messageY = bbox.y + bbox.height
         }
-        
+
 
         messageBoxContainer.setAttribute('x', messageX)
         messageBoxContainer.setAttribute('y', messageY)
@@ -162,102 +162,111 @@ class BrazilMapComponent extends HTMLElement {
     }
     style() {
         return `
-            <style>
-            .thp-brazil-map {
-                height:890px;
-                width: 100%;
-                background-color:#2F431E;
-                overflow-x:hidden;
-            }
-            #AM, #MA, #CE, #PB, #AL, #SE, #BA, #RJ, #MG, #ES, #SP {
-                fill: #80B356;
-                stroke: #2F431E;
-                transition: all 0.3s ease; 
-                
-            }
-            #AM:hover, #MA:hover, #CE:hover,
-            #PB:hover, #AL:hover, #SE:hover, #BA:hover,
-            #SP:hover, #RJ:hover, #MG:hover, #ES:hover, .active {
-                fill: #EC8A41 !important;
-            }
-            svg path{
-                pointer-events:all;
-                stroke: #80B357;
-                stroke-width: 3; 
-                stroke-linecap: round;
-                stroke-linejoin: round; 
-            }
-            #line {
-                stroke: white;
-                stroke-width: 1.5;
-            
-            } 
-            .horizontal-line{
-                stroke-dasharray: var(--horizontalLineLength);
-                animation: draw-horizontal-line 0.3s ease;
-                stroke-dashoffset: 0;
-            }
-            .vertical-line{
-                stroke-dasharray: var(--verticalLineLength);
-                animation: draw-vertical-line 0.3s ease;
-                stroke-dashoffset: 0;
-            }
-            .hide {
-                display: none;
-            }
+    <style>
+    .thp-brazil-map {
+        height:890px;
+        width: 100%;
+        background-color:#2F431E;
+        overflow-x:hidden;
+    }
+    #AM, #MA, #CE, #PB, #AL, #SE, #BA, #RJ, #MG, #ES, #SP {
+        fill: #80B356;
+        stroke: #2F431E;
+        transition: all 0.3s ease; 
+        
+    }
+    #AM:hover, #MA:hover, #CE:hover,
+    #PB:hover, #AL:hover, #SE:hover, #BA:hover,
+    #SP:hover, #RJ:hover, #MG:hover, #ES:hover, .active {
+        fill: #EC8A41 !important;
+    }
+    svg path{
+        pointer-events:all;
+        stroke: #80B357;
+        stroke-width: 3; 
+        stroke-linecap: round;
+        stroke-linejoin: round; 
+    }
+    #line {
+        stroke: white;
+        stroke-width: 1.5;
+    
+    } 
+    .horizontal-line{
+        stroke-dasharray: var(--horizontalLineLength);
+        animation: draw-horizontal-line 0.3s ease;
+        stroke-dashoffset: 0;
+    }
+    .vertical-line{
+        stroke-dasharray: var(--verticalLineLength);
+        animation: draw-vertical-line 0.3s ease;
+        stroke-dashoffset: 0;
+    }
+    .hide {
+        display: none;
+    }
 
-            @keyframes draw-vertical-line {
-                from {
-                    stroke-dashoffset: var(--verticalLineLength);
-                }
-                to {
-                    stroke-dashoffset: 0;
-                }
-            }
-            @keyframes draw-horizontal-line {
-                from {
-                    stroke-dashoffset: var(--horizontalLineLength);
-                }
-                to {
-                    stroke-dashoffset: 0;
-                }
-            }
-            @media (max-width: 1200px) {
-                .message-box-container {
-                    width: 355px;
-                    height: 155px;
-                }
-            }
-            @media (max-width: 600px) {
-                .thp-brazil-map {
-                    height: 500px;
-                }
-                .message-box-container {
-                    width: 100%;
-                    height: 250px;
-                }
-            }
-            </style>
-        `
+    @keyframes draw-vertical-line {
+        from {
+            stroke-dashoffset: var(--verticalLineLength);
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    @keyframes draw-horizontal-line {
+        from {
+            stroke-dashoffset: var(--horizontalLineLength);
+        }
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+    @media (max-width: 1200px) {
+        .message-box-container {
+            width: 355px;
+            height: 155px;
+        }
+    }
+    @media (max-width: 600px) {
+        .thp-brazil-map {
+            height: 500px;
+        }
+        .message-box-container {
+            width: 100%;
+            height: 250px;
+        }
+    }
+    @media (max-width: 320px) {
+        .thp-brazil-map {
+            height: 350px;
+        }
+        .message-box-container {
+            width: 100%;
+            height: 250px;
+        }
+    }
+    </style>
+`
     }
     createStates() {
         return this.data().states.reduce((acc, current) => acc + `<path id='${current.id}' class='thp-brazil-state' d='${current.d}' />`, '');
     }
     render() {
         this.shadow.innerHTML = `
-            ${this.style()}
-            <svg class="thp-brazil-map" width="954" height="890" viewBox="0 0 954 890" fill="none" xmlns="http://www.w3.org/2000/svg">              
-            ${this.createStates()} 
-            <path id="line" class="horizontal-line hide" fill="none"/>
-            <path id="line" class="vertical-line hide" fill="none"/>
-            <circle class="circle hide" r="3" fill="white" />
-            <foreignObject class='message-box-container' x="" y="" width="360" height="180">
-                <div xmlns="http://www.w3.org/1999/xhtml">
-                    <message-box-component></message-box-component>
-                </div>
-            </foreignObject>
-            </svg>
-        `;
+    ${this.style()}
+    <svg class="thp-brazil-map" width="954" height="890" viewBox="0 0 954 890" fill="none" xmlns="http://www.w3.org/2000/svg">              
+    ${this.createStates()} 
+    <path id="line" class="horizontal-line hide" fill="none"/>
+    <path id="line" class="vertical-line hide" fill="none"/>
+    <circle class="circle hide" r="3" fill="white" />
+    <foreignObject class='message-box-container' x="" y="" width="360" height="180">
+        <div xmlns="http://www.w3.org/1999/xhtml">
+            <message-box-component></message-box-component>
+        </div>
+    </foreignObject>
+    </svg>
+`;
     }
 }
 customElements.define("brazil-map-component", BrazilMapComponent);
@@ -291,41 +300,41 @@ class MessageBoxComponent extends HTMLElement {
     }
     style() {
         return `
-            <style>
-                .thp-message-box{
-                color: white;
-                width: fit-content;
-                padding-top: 10px;
+    <style>
+        .thp-message-box{
+        color: white;
+        width: fit-content;
+        padding-top: 10px;
+        font-size: 20px;
+        font-family: Futura-LT-W01-Book; 
+        }
+        .thp-message-box span {
+        font-size: 14px;
+        font-family: Futura-LT-W01-Book;
+        }
+        .hide {
+        visibility: hidden;
+        }
+        @media (max-width: 1200px) {
+            .thp-message-box {
                 font-size: 20px;
-                font-family: Futura-LT-W01-Book; 
-                }
-                .thp-message-box span {
+            }
+
+            .thp-message-box span {
                 font-size: 14px;
-                font-family: Futura-LT-W01-Book;
-                }
-                .hide {
-                visibility: hidden;
-                }
-                @media (max-width: 1200px) {
-                    .thp-message-box {
-                        font-size: 20px;
-                    }
+            }
+        }
+        @media (max-width: 600px) {
+            .thp-message-box {
+                font-size: 40px;
+            }
 
-                    .thp-message-box span {
-                        font-size: 14px;
-                    }
-                }
-                @media (max-width: 600px) {
-                    .thp-message-box {
-                        font-size: 40px;
-                    }
-
-                    .thp-message-box span {
-                        font-size: 30px;
-                    }
-                }
-            </style>
-        `
+            .thp-message-box span {
+                font-size: 30px;
+            }
+        }
+    </style>
+`
     }
     createMessage(id) {
         let element = this.data().messages.ptBr.find((item) => item.id == id)
@@ -364,10 +373,10 @@ class MessageBoxComponent extends HTMLElement {
     }
     render() {
         this.shadow.innerHTML = `
-            ${this.style()}
-            <div class='thp-message-box hide'>
-            </div>
-        `;
+    ${this.style()}
+    <div class='thp-message-box hide'>
+    </div>
+`;
     }
 }
 customElements.define("message-box-component", MessageBoxComponent);
