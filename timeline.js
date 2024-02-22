@@ -53,6 +53,19 @@ class CircleComponent extends HTMLElement {
         });
         this.dispatchEvent(event);
     }
+    handleClick() {
+           window.onmessage = (event) => {
+                if (event.data) {
+                console.log(`HTML Component received a message: ${event.data}`);
+                // additional code here
+                }
+            }
+        const event = new CustomEvent("circleClickOrMouseEnter", {
+            bubbles: true,
+            detail: { id: this.id, chain: this.chain },
+        });
+        this.dispatchEvent(event);
+    }
     handleMouseleave() {
         const event = new CustomEvent("circleMouseleave", { bubbles: true });
         this.dispatchEvent(event);
@@ -63,7 +76,7 @@ class CircleComponent extends HTMLElement {
         let circle = this.shadow.querySelector(".ipti-project-circle");
         circle.addEventListener(
             "click",
-            this.handleClickAndMouseEnter.bind(this)
+            this.handleClick.bind(this)
         );
         circle.addEventListener(
             "mouseenter",
@@ -135,6 +148,60 @@ class CircleComponent extends HTMLElement {
 }
 customElements.define("circle-component", CircleComponent);
 
+class postitComponent extends HTMLElement {
+    constructor(){
+        super();
+        this.shadow = this.attachShadow({mode: "open" })
+    }
+    get content() {
+        return this.getAttribute("content");
+    }
+    set content(val) {
+        this.setAttribute("content", val);
+    }
+    connectedCallback(){
+        this.render();
+    }
+    style(){
+        return `
+            <style>
+                .thp-postit {
+                    position: absolute;
+                    padding: 10px 11px;
+                    width: max-content;
+                    text-align: center;
+                    background-color: white;
+                    z-index: 2;
+                    top: 50%;
+                    left: 50%;
+                    font-size:16px;
+                    transform: translate(-50%, -50%);
+                    font-family: Futura-LT-W01-Book;
+                    
+                }
+                @media (max-width: 640px) {
+                    .thp-postit {
+                        font-size: 12px;
+                    }
+                }
+            </style>
+        `
+    }
+    render(){
+        this.shadow.innerHTML = `
+            ${this.style()}
+            <div class="thp-postit">
+                <div>     
+                    Passe o mouse na TS e veja com quais TS's ela interage
+                </div>
+                <div>
+                    Clique na TS e vá direto para a página da TS
+                </div>
+            </div>
+        `
+    }
+}
+customElements.define("postit-component", postitComponent)
 class TimelineComponent extends HTMLElement {
     constructor() {
         super();
@@ -179,7 +246,7 @@ class TimelineComponent extends HTMLElement {
         return `
     <style>
         .ipti-timeline {
-            width: 100%;
+            width: 100vw;
             
         }
         .timeline__header{
@@ -309,6 +376,7 @@ class TimelineComponent extends HTMLElement {
             <hr class="dashed-line" />
         </div>
         <div class="timeline__column">
+            <postit-component></postit-component>
             <hr class="dashed-line" />
         </div>
         <div class="timeline__column">
@@ -378,6 +446,7 @@ class TimelineComponent extends HTMLElement {
             <hr class="dashed-line" />
         </div>
         <div class="timeline__column">
+        <circle-component id="8" name="VETORES" color="#f09c64" url="https://www.thehumanproject.org.br/vetores" chain="[12,7]"></circle-component>
             <hr class="dashed-line" />
         </div>
         <div class="timeline__column">
@@ -391,7 +460,7 @@ class TimelineComponent extends HTMLElement {
             <hr class="dashed-line" />
         </div>
         <div class="timeline__column">
-            <circle-component id="8" name="VETORES" color="#f09c64" url="https://www.thehumanproject.org.br/vetores" chain="[12,7]"></circle-component>
+            <circle-component id="21" name="AVISTE" color="#f09c64" url="https://www.thehumanproject.org.br/aviste" chain="[]"></circle-component>
             <hr class="dashed-line" />
         </div>
         <div class="timeline__column">
