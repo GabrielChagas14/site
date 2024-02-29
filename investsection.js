@@ -13,10 +13,10 @@ class InvestSectionComponent extends HTMLElement
     {
         return `
             <style>
-                .investsection{
+                .investsection {
                     padding: 30px 15px;
                     width: 100%;
-                    background-color: #81b558;
+                    background-color: #80B357;
                     display: flex;
                     justify-content: center;
                     gap: 50px;
@@ -25,13 +25,23 @@ class InvestSectionComponent extends HTMLElement
                     font-family: Futura-LT-W01-Book;
                 }
                 .card {
-                    padding: 40px 40px;
-                    box-sizing:border-box;
                     background-color: #ffffff;
                     color: #232323; 
                     font-size:18px;
                     height: 240px;
+                    width: 317px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
 
+                }
+                .card-body{
+                    margin-top: 15px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 15px;
                 }
                 .card.no-background{
                     background-color: initial;
@@ -52,6 +62,17 @@ class InvestSectionComponent extends HTMLElement
                     color:#79a757;
                     font-weight: bold;
                 }
+                @media (max-width: 1000px) {
+                    .investsection {
+                        flex-direction: column;
+                        padding: 0;
+                      }
+                }
+                @media (max-width: 360px) {
+                    .card {
+                        width: 90%;
+                      }
+                }
             </style>
         `;
     }
@@ -61,25 +82,32 @@ class InvestSectionComponent extends HTMLElement
             ${this.style()}
             <div class="investsection">
                 <div class="card no-background">
-                    Faça seu <br> 
-                    investimento,<br> 
-                    preferencialmente<br>
-                    com recorrência<br>
-                    mensal, através<br>
-                    da conta:
+                    <div class="card-body">
+                        Faça seu <br> 
+                        investimento,<br> 
+                        preferencialmente<br>
+                        com recorrência<br>
+                        mensal, através<br>
+                        da conta:
+                    </div>
                 </div>
                 <div class="card">
-                    Banco do Brasil: <span>001</span><br>
-                    Agência: <span>1224-6</span> <br>
-                    Conta Corrente: <span>88000-0</span><br>
-                    <span>Instituto de Pesquisas em <br> Tecnologia e Inovação</span><br>
-                    CNPJ: <span>05.929852/0001-81</span>
+                    <div class="card-body">
+                        <div class="text">
+                            Banco do Brasil: <span>001</span><br>
+                            Agência: <span>1224-6</span> <br>
+                            Conta Corrente: <span>88000-0</span><br>
+                            <span>Instituto de Pesquisas em <br> Tecnologia e Inovação</span><br>
+                            CNPJ: <span>05.929852/0001-81</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="card card-qrcode">
+                    <div class="card-body">
                         <img class="qrcode" src="assets/qrcode.jpeg" />
-          
-                    <div class="pix"> PIX </div>
-                    CNPJ: <span>05.929852/0001-81</span>
+                        <div class="pix"> PIX </div>
+                        <div>CNPJ: <span>05.929852/0001-81</span></div>
+                    </div>
                 </div>
             <div>
         `

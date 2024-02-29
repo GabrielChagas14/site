@@ -16,7 +16,7 @@ class InvestSectionComponent extends HTMLElement
                 .investsection{
                     padding: 30px 15px;
                     width: 100%;
-                    background-color: #81b558;
+                    background-color: #80B357;
                     display: flex;
                     justify-content: center;
                     gap: 50px;
@@ -78,6 +78,20 @@ class InvestSectionComponent extends HTMLElement
                     font-size: 22px;
                     font-family: Futura-LT-W01-Book;
                 }
+                @media (max-width: 1000px) {
+                    .investsection {
+                        flex-direction: column;
+                        padding: 0;
+                      }
+                }
+                @media (max-width: 360px) {
+                    .card {
+                        width: 90%;
+                      }
+                      .logo-give-smart{
+                        width: 150px;
+                    }
+                }
             </style>
         `;
     }
@@ -109,7 +123,7 @@ class InvestSectionComponent extends HTMLElement
                 </div>
                 <div class="card card-qrcode">
                     <div class="card-header">
-                        if you live in Other Countries <span>USA</span>
+                        if you live in <span>USA</span>
                     </div>
                     <div class="card-body">
                         <img class="logo-give-smart" src="assets/GiveSmart.png" />
