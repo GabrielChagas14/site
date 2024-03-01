@@ -165,25 +165,24 @@ class postitComponent extends HTMLElement {
     style(){
         return `
             <style>
-                .thp-postit {
-                    position: absolute;
-                    padding: 10px 11px;
-                    width: max-content;
-                    text-align: center;
-                    background-color: white;
-                    z-index: 2;
-                    top: 50%;
-                    left: 50%;
-                    font-size:16px;
-                    transform: translate(-50%, -50%);
-                    font-family: Futura-LT-W01-Book;
-                    
-                }
-                @media (max-width: 640px) {
-                    .thp-postit {
-                        font-size: 12px;
-                    }
-                }
+            .thp-postit {
+                position: absolute;
+                padding: 10px 11px;
+                width: max-content;
+                text-align: center;
+                z-index: 2;
+                margin-top: 70px;
+                top: 50%;
+                left: 50%;
+                font-size:16px;
+                transform: translate(-50%, -50%);
+                font-family: Futura-LT-W01-Book;
+                
+            }
+            img {
+                width: 260px; 
+                height: 240px;
+            }
             </style>
         `
     }
@@ -191,12 +190,7 @@ class postitComponent extends HTMLElement {
         this.shadow.innerHTML = `
             ${this.style()}
             <div class="thp-postit">
-                <div>     
-                    Passe o mouse na TS e veja com quais TS's ela interage
-                </div>
-                <div>
-                    Clique na TS e vá direto para a página da TS
-                </div>
+                <img src="./assets/post-it-port.png" />
             </div>
         `
     }
